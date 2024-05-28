@@ -592,32 +592,10 @@ Todos os erros apresentados durante a execução da API podem ser consultados no
 --
 
 
-## Plano de Deploy via Docker
+## Plano de Deploy 
 
-### Passos para o Deploy
-1. **Configurar o Ambiente:**
-   - Escolher um provedor de hospedagem (AWS).
-   - Configurar o ambiente virtual e instalar dependências.
-
-2. **Implementar o Servidor:**
-   - Utilizar um framework como Flask ou FastAPI.
-   - Configurar rotas e métodos.
-
-3. **Configurar Autenticação JWT:**
-   - Implementar middleware de autenticação.
-   - Configurar geração e verificação de tokens.
-
-4. **Testar a API:**
-   - Realizar testes unitários e de integração.
-   - Validar respostas e erros.
-
-5. **Realizar o Deploy:**
-   - Utilizar ferramentas como Docker para containerização.
-   - Configurar CI/CD para deploy automático.
-
-6. **Compartilhar o Link:**
-   - Disponibilizar o link do ambiente de produção.
-   - Criar documentação pública.
+<img src="/use_case/scrapping_api_c3_arquitetura_deploy.png">
+ 
 
 ## Testes
 - Os testes são realizados para garantir que a API e os scrapers funcionem corretamente. Eles utilizam o FastAPI TestClient e Pytest para realizar testes de integração.
@@ -686,9 +664,9 @@ Este projeto é licenciado sob a MIT License - veja o arquivo LICENSE.md para ma
 ## 📫 Integrantes
 
 1. Igor Bruno
-2. Luiz Carlos
+2. Luiz Carlos - @luizcs-code
 3. Vinicius Gomes
-4. Elzo Santos
+4. Elzo Santos - @elzosantos
 
 ### Agradecimentos
 Prof. Rodrigo Viannini
