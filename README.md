@@ -1,4 +1,3 @@
-
 ## Visão Geral da EMBRAPA API - Vitivinicultura
 
 ### Descrição
