@@ -1,0 +1,92 @@
+um exemplo de como criar uma API usando FastAPI para servir um modelo .pkl salvo, usando os quatro inputs que você mencionou anteriormente, que são: os times "mandante" e "visitante". Vou supor que o modelo faz previsões baseadas nesses dois times.
+
+Estrutura Básica do Projeto
+Seu projeto terá a seguinte estrutura:
+
+bash
+Copiar código
+- main.py                # Arquivo principal da API
+- model.pkl              # Arquivo do modelo salvo
+Dependências Necessárias
+Para criar a API, você precisará instalar FastAPI e scikit-learn (ou outra biblioteca que você usou para treinar o modelo). Você também precisará do joblib ou pickle para carregar o modelo. Para instalar as dependências, rode:
+
+sh
+Copiar código
+pip install fastapi uvicorn scikit-learn
+Código do Arquivo main.py
+Aqui está um exemplo de código para a API:
+
+python
+Copiar código
+import pickle
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+# Carregar o modelo treinado
+with open("model.pkl", "rb") as model_file:
+    model = pickle.load(model_file)
+
+# Criar uma instância do FastAPI
+app = FastAPI()
+
+# Definir o esquema de entrada usando Pydantic
+class PredictionInput(BaseModel):
+    mandante: str
+    visitante: str
+    # Caso você tenha outros inputs, adicione aqui
+
+# Definir a rota de previsão
+@app.post("/predict")
+def predict(input_data: PredictionInput):
+    # Extrair os inputs
+    mandante = input_data.mandante
+    visitante = input_data.visitante
+
+    # Converter os inputs para o formato aceito pelo modelo
+    # Por exemplo, um array com os índices dos times, se for o caso.
+    input_features = [[mandante, visitante]]  # Ajuste conforme a necessidade do seu modelo
+
+    # Fazer a previsão
+    prediction = model.predict(input_features)
+
+    # Retornar a previsão
+    return {"resultado": prediction[0]}
+
+# Para rodar a aplicação, use o seguinte comando no terminal:
+# uvicorn main:app --reload
+Explicação do Código:
+Importações Necessárias:
+
+pickle: Para carregar o modelo salvo (.pkl).
+FastAPI e BaseModel do pydantic: Para criar a API e validar os dados de entrada.
+Carregar o Modelo:
+
+O modelo é carregado no início usando pickle.
+Instância do FastAPI:
+
+app = FastAPI() cria a instância principal da API.
+Classe de Input (PredictionInput):
+
+Essa classe define o formato dos dados de entrada que a API deve receber. Aqui, inclui mandante e visitante.
+Rota de Previsão (/predict):
+
+Essa rota recebe um POST com os inputs definidos na classe PredictionInput.
+Os valores dos inputs são extraídos e convertidos para o formato adequado ao modelo.
+model.predict(input_features) faz a previsão usando o modelo carregado.
+Executando a API
+Para rodar a API, utilize o comando:
+
+sh
+Copiar código
+uvicorn main:app --reload
+Isso fará com que a API esteja disponível no endereço http://127.0.0.1:8000. Para testar a previsão, você pode usar uma ferramenta como o Postman ou mesmo curl:
+
+sh
+Copiar código
+curl -X POST "http://127.0.0.1:8000/predict" -H "Content-Type: application/json" -d '{"mandante": "Flamengo", "visitante": "Corinthians"}'
+Observações
+Pré-processamento: Caso o modelo requeira pré-processamento dos dados, como codificação de categorias (por exemplo, times para valores numéricos), você deve incluir essa lógica antes da chamada model.predict().
+
+Segurança e Validação: Valide as entradas para evitar valores inválidos ou ataques de injeção.
+
+Este exemplo oferece uma base para servir seu modelo .pkl com FastAPI, e você pode expandi-lo conforme as necessidades do seu projeto.
